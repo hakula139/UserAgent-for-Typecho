@@ -5,9 +5,10 @@
  *
  * @package UserAgent
  * @author Hakula
+ * @version 0.2.0
  * @link https://hakula.xyz/
- * @version 0.1.0
  */
+
 class UserAgent_Plugin implements Typecho_Plugin_Interface
 {
     /**
@@ -102,87 +103,17 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
         $size = Typecho_Widget::widget('Widget_Options')->plugin('UserAgent')->size;
         $display = Typecho_Widget::widget('Widget_Options')->plugin('UserAgent')->display;
 
-        /* URLencode */
-        $url_parm = urlencode($ua);
- 
-        /* 利用 UserAgentString 的 API */
-        error_reporting(E_ERROR); 
-        // ini_set("display_errors", "Off");
-        $request = "http://www.useragentstring.com/?uas=" . $url_parm . "&getJSON=all";
-        $getua = json_decode(file_get_contents($request));
-        $BrowserName = $getua->agent_name; // 浏览器名称
-        $BrowserVersion = $getua->agent_version; // 浏览器版本
-        $OsType = $getua->os_type; // 操作系统类型
-        $OsName = $getua->os_name; // 操作系统名称
-        $OsVersion = $getua->os_versionNumber; // 操作系统版本
-        $LinuxDistibution = $getua->linux_distibution; // Linux 发行版
- 
-        /* 图标文件名适配 */
-        /* 浏览器 */
-        switch ($BrowserName) {
-            case "Chrome":
-            case "Firefox":
-            case "Safari":
-            case "Edge":
-            case "Opera":
-            case "QQBrowser":
-            case "BlackBerry":
-                $img_browser = $BrowserName;
-                break;
-            case "Sogou Explorer":
-            case "Internet Explorer":
-            case "Android Webkit Browser":
-                $img_browser = str_replace(" ", "-", $BrowserName);
-                break;
-            default:
-                $img_browser = "Others";
-                break;
-        }
- 
         /* 操作系统 */
-        if ($OsType == "Windows") {
-            switch ($OsName) {
-                case "Windows 10":
-                    $img_system = "Windows-10";
-                    break;
-                case "Windows 8.1":
-                case "Windows 8":
-                    $img_system = "Windows-8";
-                    break;
-                default:
-                    $img_system = "Windows";
-                    break;
-            }
-        } elseif ($OsType == "Android") {
-            $img_system = "Android";
-        } elseif ($OsName == "OS X" || ($OsName == "iPhone OS") || $OsType == "Macintosh") {
-            $img_system = "Apple";
-        } elseif ($OsType == "Linux") {
-            if (($LinuxDistibution == "Ubuntu") || ($LinuxDistibution == "CentOS") || ($LinuxDistibution == "Fedora") || ($LinuxDistibution == "Debian")) {
-                $img_system = $LinuxDistibution;
-            } else if ($LinuxDistibution == "Red Hat") {
-                $img_system = "Red-Hat";
-            } else {
-                $img_system = "Linux";
-            }
-        } elseif (($OsType == "FreeBSD") || ($OsType == "BlackBerryOS")) {
-            $img_system = $OsType;
-        } else {
-            $img_system = "Others";
-        }
+        require_once 'get_os.php';
+        $Os = get_os($ua);
+        $OsImg = self::img("os/", $Os['code'], $Os['title']);
+        $OsName = $Os['title'];
 
-        /* 图标 */
-        if ($OsVersion != "") {
-            $OsImg = self::img("os/", $img_system, $OsName . "&nbsp;" . $OsVersion);
-        } else {
-            $OsImg = self::img("os/", $img_system, $OsName);
-        }
-
-        if ($BrowserVersion != "--") {
-            $BrowserImg = self::img("browser/", $img_browser, $BrowserName . "&nbsp;" . $BrowserVersion);
-        } else {
-            $BrowserImg = self::img("browser/", $img_browser, $BrowserName);
-        }
+        /* 浏览器 */
+        require_once 'get_browser.php';
+        $Browser = get_browser($ua);
+        $BrowserImg = self::img("browser/", $Browser['code'], $Browser['title']);
+        $BrowserName = $Browser['title'];
 
         /* 显示模式 */
         switch ($display) {
@@ -190,13 +121,10 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
                 $ua = "&nbsp;&nbsp;" . $OsImg . "&nbsp;&nbsp;" . $BrowserImg;
                 break;
             case 1:
-                $ua = "&nbsp;&nbsp;(&nbsp;" . $OsName . "&nbsp;/&nbsp;" . $BrowserName . "&nbsp;" . $BrowserVersion . "&nbsp;)";
-                break;
-            case 2:
-                $ua = "&nbsp;&nbsp;(&nbsp;" . $OsImg . "&nbsp;" . $OsName . "&nbsp;/&nbsp;" . $BrowserImg . "&nbsp;" . $BrowserName . "&nbsp;" . $BrowserVersion . "&nbsp;)";
+                $ua = "&nbsp;&nbsp;(&nbsp;" . $OsName . "&nbsp;/&nbsp;" . $BrowserName . "&nbsp;)";
                 break;
             default:
-                $ua = "&nbsp;&nbsp;" . $OsImg . "&nbsp;&nbsp;" . $BrowserImg;
+                $ua = "&nbsp;&nbsp;(&nbsp;" . $OsImg . "&nbsp;" . $OsName . "&nbsp;/&nbsp;" . $BrowserImg . "&nbsp;" . $BrowserName . "&nbsp;)";
                 break;
         }
 
@@ -212,11 +140,6 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
     public static function img($type, $name, $title)
     {
         global $size, $url_img;
-
-        // 默认大小 16px
-        if ($size == "") {
-            $size = 16;
-        }
 
         $img = "<img nogallery class='icon-ua' src='" . $url_img . $type . $name . ".svg' title='" . $title . "' alt='" . $title . "' height='" . $size . "' style='vertical-align:-2px;' />";
 
