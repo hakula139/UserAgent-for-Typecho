@@ -143,32 +143,41 @@ function get_os($ua)
             if (preg_match('/iPhone/i', $ua)) {
 
                 $title = 'iOS';
-                $version = substr($ua, strpos(strtolower($ua), strtolower('iPhone OS')) + 9);
+                $version = substr($ua, strpos(strtolower($ua), strtolower('iPhone OS')) + 10);
+
+                // Parse iOS version number
+                $version = substr($version, 0, strpos($version, 'l') - 1);
 
             } elseif (preg_match('/iPad/i', $ua)) {
 
                 $title = 'iOS';
-                $version = substr($ua, strpos(strtolower($ua), strtolower('CPU OS')) + 6);
+                $version = substr($ua, strpos(strtolower($ua), strtolower('CPU OS')) + 7);
+
+                $version = substr($version, 0, strpos($version, 'l') - 1);
 
             } elseif (preg_match('/Mac OS X/i', $ua)) {
 
-                $version = substr($ua, strpos(strtolower($ua), strtolower('OS X')) + 4);
+                $version = substr($ua, strpos(strtolower($ua), strtolower('OS X')) + 5);
+
+                // Parse OS X version number
+                $version = substr($version, 0, strpos($version, ')'));
 
             } else {
 
-                $version = substr($ua, strpos(strtolower($ua), strtolower('OSX')) + 3);
+                $version = substr($ua, strpos(strtolower($ua), strtolower('OSX')) + 4);
+                
+                $version = substr($version, 0, strpos($version, ')'));
 
             }
 
             // Parse OS X version number
-            $version = substr($version, 0, strpos($version, ')'));
-
             if (strpos($version, ';') > -1) {
 
                 $version = substr($version, 0, strpos($version, ';'));
 
             }
 
+            // Beautify version format
             $version = str_replace('_', '.', $version);
 
         } elseif (preg_match('/Darwin/i', $ua)) {

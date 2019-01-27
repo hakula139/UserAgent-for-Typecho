@@ -41,8 +41,7 @@ function get_browser_name($ua)
 
     } elseif (preg_match('/SE\ /i', $ua) && preg_match('/MetaSr/i', $ua)) {
 
-        $title = '搜狗浏览器';
-        $version = get_browser_version($ua, 'SE');
+        $title = '搜狗高速浏览器';
         $code = 'Sogou-Explorer';
 
     } elseif (preg_match('/QQBrowser/i', $ua) || preg_match('/MQQBrowser/i', $ua)) {
@@ -70,7 +69,7 @@ function get_browser_name($ua)
 
     } elseif (preg_match('/CriOS/i', $ua)) {
 
-        $title = 'Google Chrome Mobile';
+        $title = 'Google Chrome for iOS';
         $version = get_browser_version($ua, 'CriOS');
         $code = 'Chrome';
 
