@@ -110,8 +110,8 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
         $OsName = $Os['title'];
 
         /* 浏览器 */
-        require_once 'get_browser.php';
-        $Browser = get_browser($ua);
+        require_once 'get_browser_name.php';
+        $Browser = get_browser_name($ua);
         $BrowserImg = self::img("browser/", $Browser['code'], $Browser['title']);
         $BrowserName = $Browser['title'];
 

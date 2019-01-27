@@ -23,7 +23,7 @@
 require_once 'get_browser_version.php';
 
 /* Detect Web Browsers */
-function get_browser($ua)
+function get_browser_name($ua)
 {
     $version = '';
     $code = null;
