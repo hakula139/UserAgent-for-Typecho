@@ -282,6 +282,7 @@ function get_browser_name($ua)
     } elseif (preg_match('/Safari/i', $ua) && !preg_match('/Nokia/i', $ua)) {
 
         $title = 'Safari';
+        $code = 'Safari';
 
         if (preg_match('/Version/i', $ua)) {
 
@@ -336,6 +337,7 @@ function get_browser_name($ua)
 
         if (empty($version)) {
             $title .= ' Compatible';
+            $code = 'Mozilla';
         }
 
     }
@@ -348,15 +350,15 @@ function get_browser_name($ua)
 
     }
 
-    if ($version != '') {
-
-        $title .= " $version";
-
-    }
-
     if (is_null($code)) {
 
         $code = $title;
+
+    }
+
+    if ($version != '') {
+
+        $title .= " $version";
 
     }
 
