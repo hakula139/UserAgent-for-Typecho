@@ -5,7 +5,7 @@
  *
  * @package UserAgent
  * @author Hakula
- * @version 0.2.1
+ * @version 0.2.3
  * @link https://hakula.xyz/
  */
 

@@ -18,6 +18,7 @@ Typecho 插件，用于在评论区显示用户使用的操作系统、浏览器
 
 ## 更新日志
 
+- v0.2.3&emsp;&emsp;修复若干图标显示 Bug。
 - v0.2.2&emsp;&emsp;优化了 iOS 系统的 UA 显示。
 - v0.2.1&emsp;&emsp;跟 PHP 自带函数重名了… 修复了这个 Bug。
 - v0.2.0&emsp;&emsp;将 UA 识别方式本地化，移植了 Wordpress 插件的识别方法。
