@@ -186,7 +186,7 @@ function get_browser_name($ua)
         $title = 'Opera';
         $code = 'Opera';
 
-		// How is version stored on this Opera ua?
+        // How is version stored on this Opera ua?
         if (preg_match('/Version/i', $ua)) {
 
             $version = get_browser_version($ua, 'Version');
@@ -197,12 +197,12 @@ function get_browser_name($ua)
 
         } else {
 
-			// Use Opera as fallback since full title may change (Next, Developer, etc.)
+            // Use Opera as fallback since full title may change (Next, Developer, etc.)
             $version = get_browser_version($ua, 'Opera');
 
         }
 
-		// Parse full edition name, ex: Opera/9.80 (X11; Linux x86_64; U; Edition Labs Camera and Pages; Ubuntu/11.10; en) Presto/2.9.220 Version/12.00
+        // Parse full edition name, ex: Opera/9.80 (X11; Linux x86_64; U; Edition Labs Camera and Pages; Ubuntu/11.10; en) Presto/2.9.220 Version/12.00
         if (preg_match('/Edition ([\ ._0-9a-zA-Z]+)/i', $ua, $regmatch)) {
 
             $title .= ' ' . $regmatch[1];
@@ -313,17 +313,17 @@ function get_browser_name($ua)
 
         if (preg_match('/\ rv:([.0-9a-zA-Z]+)/i', $ua)) {
 
-			// IE11 or newer
+            // IE11 or newer
             $version = get_browser_version($ua, ' rv');
 
         } else {
 
-			// IE10 or older, regex: '/MSIE[\ |\/]?([.0-9a-zA-Z]+)/i'
+            // IE10 or older, regex: '/MSIE[\ |\/]?([.0-9a-zA-Z]+)/i'
             $version = get_browser_version($ua, 'MSIE');
 
         }
 
-		// Detect compatibility mode for IE
+        // Detect compatibility mode for IE
         if ($version === '7.0' && preg_match('/Trident\/4.0/i', $ua)) {
 
             $version = '8.0 (Compatibility Mode)';
@@ -342,7 +342,7 @@ function get_browser_name($ua)
 
     }
     
-	// No Web browser match
+    // No Web browser match
     else {
 
         $title = 'Other Browser';
@@ -363,8 +363,8 @@ function get_browser_name($ua)
     }
 
     $result['code'] = $code;
-	$result['title'] = $title;
-    
+    $result['title'] = $title;
+
     return $result;
 }
 
