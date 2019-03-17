@@ -141,7 +141,7 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
     {
         global $size, $url_img;
 
-        $img = "<img nogallery class='icon-ua' src='" . $url_img . $type . $name . ".svg' title='" . $title . "' alt='" . $title . "' height='" . $size . "' style='vertical-align:-1px;' />";
+        $img = "<img nogallery class='icon-ua' src='" . $url_img . $type . $name . ".svg' title='" . $title . "' alt='" . $title . "' height='" . $size . "' style='vertical-align:-2px;' />";
 
         return $img;
     }
