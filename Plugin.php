@@ -9,8 +9,7 @@
  * @link https://hakula.xyz/
  */
 
-class UserAgent_Plugin implements Typecho_Plugin_Interface
-{
+class UserAgent_Plugin implements Typecho_Plugin_Interface {
     /**
      * 激活插件方法，如果激活失败，直接抛出异常
      *
@@ -18,9 +17,7 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
      * @return void
      * @throws Typecho_Plugin_Exception
      */
-    public static function activate()
-    {
-    }
+    public static function activate() {}
 
     /**
      * 禁用插件方法，如果禁用失败，直接抛出异常
@@ -30,9 +27,7 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
      * @return void
      * @throws Typecho_Plugin_Exception
      */
-    public static function deactivate()
-    {
-    }
+    public static function deactivate() {}
 
     /**
      * 获取插件配置面板
@@ -41,8 +36,7 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
      * @param Typecho_Widget_Helper_Form $form 配置面板
      * @return void
      */
-    public static function config(Typecho_Widget_Helper_Form $form)
-    {
+    public static function config(Typecho_Widget_Helper_Form $form) {
         /* 图标大小 */
         $size = new Typecho_Widget_Helper_Form_Element_Radio(
             'size',
@@ -83,9 +77,7 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
      * @param Typecho_Widget_Helper_Form $form
      * @return void
      */
-    public static function personalConfig(Typecho_Widget_Helper_Form $form)
-    {
-    }
+    public static function personalConfig(Typecho_Widget_Helper_Form $form) {}
 
     /**
      * 插件实现方法
@@ -93,13 +85,11 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
      * @access public
      * @return void
      */
-    public static function render($ua)
-    {
+    public static function render($ua) {
         $options = Typecho_Widget::widget('Widget_Options');
         $url_plugin = $options->pluginUrl . '/UserAgent/';  // 插件地址 -> https://example.com/usr/plugins/UserAgent/
         global $url_img, $size;
         $url_img = $url_plugin . "img/";
-
         $size = Typecho_Widget::widget('Widget_Options')->plugin('UserAgent')->size;
         $display = Typecho_Widget::widget('Widget_Options')->plugin('UserAgent')->display;
 
@@ -127,7 +117,6 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
                 $ua = "&nbsp;&nbsp;(&nbsp;" . $OsImg . "&nbsp;" . $OsName . "&nbsp;/&nbsp;" . $BrowserImg . "&nbsp;" . $BrowserName . "&nbsp;)";
                 break;
         }
-
         echo $ua;
     }
 
@@ -137,12 +126,9 @@ class UserAgent_Plugin implements Typecho_Plugin_Interface
      * @access public
      * @return void
      */
-    public static function img($type, $name, $title)
-    {
+    public static function img($type, $name, $title) {
         global $size, $url_img;
-
         $img = "<img nogallery class='icon-ua' src='" . $url_img . $type . $name . ".svg' title='" . $title . "' alt='" . $title . "' height='" . $size . "' style='vertical-align:-2px;' />";
-
         return $img;
     }
 }
